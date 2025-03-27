@@ -20,11 +20,19 @@ def total_tareas():
             agregar_tarea(tareas)
         elif opcion == '2':
             ver_tareas(tareas)
+        elif opcion == '3':
+            marcar_completada(tareas)
+        elif opcion == '4':
+            eliminar_tarea(tareas)
+        else:
+            print("Debe escoger una opcion valida ❌")
 
 
 def agregar_tarea(lista):
     tarea = input("Esscribe una nueva tarea: ")
-    lista.append({"tarea": tarea, "completada": False})
+    fecha = input("Escribe la fecha límite (YYYY-MM-DD): ")
+    lista.append({"tarea": tarea, "completada": False, "fecha": fecha})
+
     print("✅ Tarea agregada")
 
 
@@ -35,7 +43,27 @@ def ver_tareas(lista):
         print("\n📋 Lista de tareas:")
         for i, t in enumerate(lista, start=1):
             estado = "✔️" if t["completada"] else "❌"
-            print(f"{i}. {t['tarea']} [{estado}]")
+            print(f"{i}. {t['tarea']} [{estado} ] - Fecha: {t['fecha']}")
+
+
+def marcar_completada(lista):
+    ver_tareas(lista)
+    try:
+        num = int(input("Marque el numero de la tarea completada: "))
+        lista[num - 1]["completada"] = True
+        print("✔️ Tarea completada...")
+    except (ValueError, IndexError):
+        print('⚠️ numero incorrecto')
+
+
+def eliminar_tarea(lista):
+    ver_tareas(lista)
+    try:
+        num = int(input("Marque el numero de la tarea a eliminar: "))
+        tarea_eliminada = lista.pop(num-1)
+        print(f'🚮 Tarea "{tarea_eliminada["tarea"]}" Eliminada')
+    except (ValueError, IndexError):
+        print('⚠️ numero incorrecto')
 
 
 total_tareas()
