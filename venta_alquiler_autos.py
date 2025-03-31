@@ -35,7 +35,7 @@ class Ventas:
         if self.disponible:
             self.disponible = False
             print(
-                f'El auto {self.marca} {self.marca} color {self.color} ha sido vendido')
+                f'El auto {self.marca} {self.modelo} color {self.color} ha sido vendido')
         else:
             print(
                 f'El auto {self.marca} {self.modelo} color {self.color} ya no esta disponible')
@@ -64,6 +64,13 @@ class Clientes:
             print(
                 f'El auto {auto.marca} {auto.modelo} no esta en la lista de alquilados')
 
+    def comprar_auto(self, auto):
+        if auto.disponible:
+            auto.venta()
+            self.autos_comprados.append(auto)
+        else:
+            print(f'El auto {auto.marca} {auto.modelo} del año {auto.year}')
+
 
 class Concesionaria:
     def __init__(self):
@@ -87,6 +94,18 @@ class Concesionaria:
                 print(
                     f'{auto.marca} {auto.modelo} color {auto.color} {auto.puertas} puertas, con placas {auto.placa}')
 
+    def add_autos_ventas(self, auto):
+        self.autos_para_vender.append(auto)
+        print(
+            f'El auto {auto.marca} {auto.modelo} del año {auto.year} ha sido agregado')
+
+    def mostrar_autos_en_ventas(self):
+        for auto in self.autos_para_vender:
+            if auto.disponible:
+                print('Autos en ventas: ')
+                print(
+                    f'{auto.marca} {auto.modelo} color {auto.color} {auto.puertas} puertas del año {auto.year}')
+
 
 auto1 = Alquiler('Chevrolet', 'Spark', '2015', 'rojo', '4', 'PEF-4554')
 auto2 = Alquiler('Hiundai', 'Q10', '2020', 'blanco', '4', 'MAF-3564')
@@ -108,3 +127,14 @@ cliente2.alquiler_auto(auto2)
 
 cliente1.devolucion_auto(auto1)
 consecionaria.mostrar_autos_para_alquilar()
+
+
+auto3 = Ventas('Chevrolet', 'Family', '2023', 'gris', '4', '134315245')
+auto4 = Ventas('Chevrolet', 'Camaro', '2007', 'Azul', '3', '314342523454')
+consecionaria.add_autos_ventas(auto3)
+consecionaria.add_autos_ventas(auto4)
+
+consecionaria.mostrar_autos_en_ventas()
+
+cliente1.comprar_auto(auto4)
+consecionaria.mostrar_autos_en_ventas()
