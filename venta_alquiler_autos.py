@@ -1,0 +1,110 @@
+class Alquiler:
+    def __init__(self, marca, modelo, year, color, puertas, placa):
+        self.marca = marca
+        self.modelo = modelo
+        self.year = year
+        self.color = color
+        self.puertas = puertas
+        self.placa = placa
+        self.disponible = True
+
+    def alquiler(self):
+        if self.disponible:
+            self.disponible = False
+            print(
+                f'El auto {self.marca} {self.marca} color {self.color} con placas {self.placa} ha sido alquilado')
+        else:
+            print(f'El auto con placa {self.placa} ya no esta disponible')
+
+    def devolucion(self):
+        self.disponible = True
+        print(f'El auto con placas {self.placa} ha sido devuelto')
+
+
+class Ventas:
+    def __init__(self, marca, modelo, year, color, puertas, chasis):
+        self.marca = marca
+        self.modelo = modelo
+        self.year = year
+        self.color = color
+        self.puertas = puertas
+        self.chasis = chasis
+        self.disponible = True
+
+    def venta(self):
+        if self.disponible:
+            self.disponible = False
+            print(
+                f'El auto {self.marca} {self.marca} color {self.color} ha sido vendido')
+        else:
+            print(
+                f'El auto {self.marca} {self.modelo} color {self.color} ya no esta disponible')
+
+
+class Clientes:
+    def __init__(self, nombre, cedula):
+        self.nombre = nombre
+        self.cedula = cedula
+        self.autos_alquilados = []
+        self.autos_comprados = []
+
+    def alquiler_auto(self, auto):
+        if auto.disponible:
+            auto.alquiler()
+            self.autos_alquilados.append(auto)
+        else:
+            print(
+                f'El auto {auto.marca} {auto.modelo} con placas {auto.placa} no esta disponible')
+
+    def devolucion_auto(self, auto):
+        if auto in self.autos_alquilados:
+            auto.devolucion()
+            self.autos_alquilados.remove(auto)
+        else:
+            print(
+                f'El auto {auto.marca} {auto.modelo} no esta en la lista de alquilados')
+
+
+class Concesionaria:
+    def __init__(self):
+        self.autos_para_alquilar = []
+        self.autos_para_vender = []
+        self.clientes = []
+
+    def add_autos_alquiler(self, auto):
+        self.autos_para_alquilar.append(auto)
+        print(
+            f'El auto {auto.marca} {auto.modelo} con placas {auto.placa} color {auto.color} con {auto.puertas} se ha comprado para alquiler')
+
+    def registrar_cliente(self, cliente):
+        self.clientes.append(cliente)
+        print(f'El cliente {cliente.nombre} ha sido agregado')
+
+    def mostrar_autos_para_alquilar(self):
+        print('Autos para Alquilar: ')
+        for auto in self.autos_para_alquilar:
+            if auto.disponible:
+                print(
+                    f'{auto.marca} {auto.modelo} color {auto.color} {auto.puertas} puertas, con placas {auto.placa}')
+
+
+auto1 = Alquiler('Chevrolet', 'Spark', '2015', 'rojo', '4', 'PEF-4554')
+auto2 = Alquiler('Hiundai', 'Q10', '2020', 'blanco', '4', 'MAF-3564')
+
+cliente1 = Clientes('Santiago', "13111411787")
+cliente2 = Clientes('Dayana', '1724554665')
+
+consecionaria = Concesionaria()
+
+consecionaria.add_autos_alquiler(auto1)
+consecionaria.add_autos_alquiler(auto2)
+
+consecionaria.mostrar_autos_para_alquilar()
+
+cliente1.alquiler_auto(auto1)
+
+consecionaria.mostrar_autos_para_alquilar()
+cliente2.alquiler_auto(auto2)
+
+cliente1.devolucion_auto(auto1)
+consecionaria.mostrar_autos_para_alquilar()
